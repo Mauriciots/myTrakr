@@ -101,6 +101,18 @@ All the requests should have the domain of `http://localhost:3000/`.
 }
 ```
 
+## Developer guide
+
+### Formatting
+
+It is recommended to use [Prettier](https://prettier.io/) to ensure the code is always with the correct formatting.
+
+Instructions:
+
+- Install and activate the VS Code plugin: esbenp.prettier-vscode
+- Set Prettier as the Default Formatter on preferences
+- Check Format on Save option on preferences
+
 ## Resources
 
 https://trello.com/invite/b/SNmx4VyG/33e9ca30c6f65657a55b233a753d173a/mytrakr
