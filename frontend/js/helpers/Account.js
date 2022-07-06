@@ -14,7 +14,7 @@ class Account {
     const alreadyExists = accounts.some((a) => a.username === this.username)
 
     if (alreadyExists) {
-      validationMsg = `There is already an account with the name "${a.username}". Please, try a different one`
+      validationMsg = `There is already an account with the name "${this.username}". Please, try a different one`
     }
 
     return validationMsg

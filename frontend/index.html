@@ -28,19 +28,24 @@
       </form>
       <form action="">
         New Transaction: Deposit
-        <input type="radio" />
+        <input type="radio" name="transaction-type" value="deposit" checked />
         Withdraw
-        <input type="radio" />
+        <input type="radio" name="transaction-type" value="withdraw" />
         Transfer
-        <input type="radio" />
-        Account:
-        <select></select>
+        <input type="radio" name="transaction-type" value="transfer" />
 
-        From:
-        <select></select>
+        <select id="account-dropdown">
+          <!-- options will be added here -->
+        </select>
 
-        To:
-        <select></select>
+        <select id="from-dropdown">
+          <!-- options will be added here -->
+        </select>
+
+        <select id="to-dropdown">
+          <!-- options will be added here -->
+        </select>
+
         Category:
         <select></select>
         <input type="text" />
