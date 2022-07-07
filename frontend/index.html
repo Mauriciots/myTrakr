@@ -19,48 +19,66 @@
     <link rel="stylesheet" href="./css/index.css" />
   </head>
   <body>
-    myTrakr
+    <h1>myTrakr</h1>
     <main>
       <form id="account-form">
-        New Account:
-        <input type="text" name="username" id="account-name" />
+        <h3>New account</h3>
+        <input type="text" name="username" id="account-name" required />
         <button type="submit">Add new account</button>
       </form>
-      <form action="">
-        New Transaction: Deposit
-        <input type="radio" name="transaction-type" value="deposit" checked />
-        Withdraw
-        <input type="radio" name="transaction-type" value="withdraw" />
-        Transfer
-        <input type="radio" name="transaction-type" value="transfer" />
+      <form id="transaction-form">
+        <h3>New transaction</h3>
+        <div class="field-container">
+          <input type="radio" id="trans-type-deposit" name="transaction-type" value="deposit" checked />
+          <label for="trans-type-deposit">Deposit</label>
 
-        <select id="account-dropdown">
-          <!-- options will be added here -->
-        </select>
+          <input type="radio" id="trans-type-withdraw" name="transaction-type" value="withdraw" />
+          <label for="trans-type-withdraw">Withdraw</label>
 
-        <select id="from-dropdown">
-          <!-- options will be added here -->
-        </select>
+          <input type="radio" id="trans-type-transfer" name="transaction-type" value="transfer" />
+          <label for="trans-type-transfer">Transfer</label>
+        </div>
 
-        <select id="to-dropdown">
-          <!-- options will be added here -->
-        </select>
+        <div class="field-container">
+          <select id="account-dropdown">
+            <!-- accounts will be added here -->
+          </select>
+    
+          <select id="from-dropdown">
+            <!-- accounts will be added here -->
+          </select>
+    
+          <select id="to-dropdown">
+            <!-- accounts will be added here -->
+          </select>
+        </div>
 
-        Category:
-        <select></select>
-        <input type="text" />
-        <button type="button">Add new category</button>
+        <div class="field-container">
+          <select id="category-dropdown">
+            <!-- categories will be added here -->
+          </select>
+          <div id="category-fields">
+            <input type="text" name="category-name" id="category-name" required />
+            <button type="button" id="category-save-button">Add new category</button>
+          </div>
+        </div>
 
-        Description
-        <input type="text" />
+        <div class="field-container">
+          Description:
+          <input type="text" name="transaction-desc" />
+        </div>
 
-        Amount:
-        <input type="number" />
+        <div class="field-container">
+          Amount:
+          <input type="number" name="transaction-amount" />
+        </div>
 
-        <button>Add transaction</button>
-      </form>
+        <div class="field-container">
+          <hr>
+          <input type="submit" value="Add transaction" />
+        </div>
 
-      Account summary
+      Account summary<span id="account-balance"></span>
       <ul></ul>
       Filter by account:
       <select></select>
@@ -81,6 +99,7 @@
     <script src="./js/helpers/Category.js"></script>
     <script src="./js/helpers/Common.js"></script>
     <script src="./js/helpers/Transaction.js"></script>
+    <script src="./js/helpers/Elements.js"></script>
     <script src="./js/index.js"></script>
   </body>
 </html>

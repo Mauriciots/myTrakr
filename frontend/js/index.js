@@ -3,22 +3,18 @@ function createSelect(value, label) {
 }
 
 function renderAccountDropdowns(accounts) {
-  const $accountDropdown = $('#account-dropdown')
-  const $fromDropdown = $('#from-dropdown')
-  const $toDropdown = $('#to-dropdown')
+  pageEls.accountDropdown.empty()
+  pageEls.fromDropdown.empty()
+  pageEls.toDropdown.empty()
 
-  $accountDropdown.empty()
-  $fromDropdown.empty()
-  $toDropdown.empty()
-
-  $accountDropdown.append(createSelect('', 'Select account'))
-  $fromDropdown.append(createSelect('', 'Select sender account'))
-  $toDropdown.append(createSelect('', 'Select destination account'))
+  pageEls.accountDropdown.append(createSelect('', 'Select account'))
+  pageEls.fromDropdown.append(createSelect('', 'Select sender account'))
+  pageEls.toDropdown.append(createSelect('', 'Select destination account'))
 
   accounts.forEach((a) => {
-    $accountDropdown.append(createSelect(a.id, a.username))
-    $fromDropdown.append(createSelect(a.id, a.username))
-    $toDropdown.append(createSelect(a.id, a.username))
+    pageEls.accountDropdown.append(createSelect(a.id, a.username))
+    pageEls.fromDropdown.append(createSelect(a.id, a.username))
+    pageEls.toDropdown.append(createSelect(a.id, a.username))
   })
 }
 
@@ -35,34 +31,70 @@ async function handleAccountSubmit(event) {
   }
 
   await newAccount.save()
-  renderAccountDropdowns(Account.getAccounts())
+  renderAccountDropdowns(await Account.getAccounts())
+  pageEls.accountNameInput.val('')
 }
 
 function rearrangeForm(transactionType = 'deposit') {
-  const $accountDropdown = $('#account-dropdown')
-  const $fromDropdown = $('#from-dropdown')
-  const $toDropdown = $('#to-dropdown')
-
-  $accountDropdown.show()
-  $fromDropdown.hide()
-  $toDropdown.hide()
+  pageEls.accountDropdown.show()
+  pageEls.fromDropdown.hide()
+  pageEls.toDropdown.hide()
 
   if (transactionType === 'transfer') {
-    $accountDropdown.hide()
-    $fromDropdown.show()
-    $toDropdown.show()
+    pageEls.accountDropdown.hide()
+    pageEls.fromDropdown.show()
+    pageEls.toDropdown.show()
   }
 }
 
 function handleTransactionRadioClick(event) {
-  const transactionType = $('input[name="transaction-type"]:checked').val()
+  const transactionType = pageEls.selectedTransactionTypeRadio.val()
   rearrangeForm(transactionType)
 }
 
+function renderCategories(categories) {
+  pageEls.categoryDropdown.empty()
+  pageEls.categoryDropdown.append(createSelect('', 'Select a category'))
+  categories.forEach((c) => {
+    pageEls.categoryDropdown.append(createSelect(c.id, c.name))
+  })
+  pageEls.categoryDropdown.append(createSelect('__ADD__NEW__', 'Add new...'))
+  pageEls.categoryDropdown.val('')
+  pageEls.categoryFields.hide()
+}
+
+function handleCategoryDropdownChange() {
+  const category = $(this).val()
+  if (category === '__ADD__NEW__') {
+    pageEls.categoryDropdown.val('')
+    pageEls.categoryDropdown.hide()
+    pageEls.categoryFields.show()
+  }
+}
+
+async function handleCategorySaveBtnClick() {
+  pageEls.categoryInput.validate()
+  const newCategoryName = pageEls.categoryInput.val()
+
+  if (newCategoryName) {
+    const newCat = new Category(newCategoryName)
+    await newCat.save()
+    renderCategories(await Category.getCategories())
+  }
+
+  pageEls.categoryDropdown.show()
+  pageEls.categoryFields.hide()
+  pageEls.categoryInput.val('')
+}
+
 $(async () => {
-  $('#account-form').on('submit', handleAccountSubmit)
+  pageEls.accountForm.on('submit', handleAccountSubmit)
   renderAccountDropdowns(await Account.getAccounts())
 
-  $('input[name="transaction-type"]').click(handleTransactionRadioClick)
+  pageEls.transactionTypeRadioGroup.click(handleTransactionRadioClick)
   rearrangeForm()
+
+  pageEls.categoryDropdown.change(handleCategoryDropdownChange)
+  pageEls.categorySaveBtn.click(handleCategorySaveBtnClick)
+  renderCategories(await Category.getCategories())
 })
