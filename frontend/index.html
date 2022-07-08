@@ -29,48 +29,48 @@
       <form id="transaction-form">
         <h3>New transaction</h3>
         <div class="field-container">
-          <input type="radio" id="trans-type-deposit" name="transaction-type" value="deposit" checked />
+          <input type="radio" id="trans-type-deposit" name="type" value="deposit" checked />
           <label for="trans-type-deposit">Deposit</label>
 
-          <input type="radio" id="trans-type-withdraw" name="transaction-type" value="withdraw" />
+          <input type="radio" id="trans-type-withdraw" name="type" value="withdraw" />
           <label for="trans-type-withdraw">Withdraw</label>
 
-          <input type="radio" id="trans-type-transfer" name="transaction-type" value="transfer" />
+          <input type="radio" id="trans-type-transfer" name="type" value="transfer" />
           <label for="trans-type-transfer">Transfer</label>
         </div>
 
         <div class="field-container">
-          <select id="account-dropdown">
+          <select id="account-dropdown" name="accountId">
             <!-- accounts will be added here -->
           </select>
     
-          <select id="from-dropdown">
+          <select id="from-dropdown" name="accountFrom">
             <!-- accounts will be added here -->
           </select>
     
-          <select id="to-dropdown">
+          <select id="to-dropdown" name="accountTo">
             <!-- accounts will be added here -->
           </select>
         </div>
 
         <div class="field-container">
-          <select id="category-dropdown">
+          <select id="category-dropdown" name="categoryId" required>
             <!-- categories will be added here -->
           </select>
           <div id="category-fields">
-            <input type="text" name="category-name" id="category-name" required />
+            <input type="text" name="category-name" id="category-name" />
             <button type="button" id="category-save-button">Add new category</button>
           </div>
         </div>
 
         <div class="field-container">
           Description:
-          <input type="text" name="transaction-desc" />
+          <input type="text" name="description" required />
         </div>
 
         <div class="field-container">
           Amount:
-          <input type="number" name="transaction-amount" />
+          <input type="number" name="amount" required min="1"/>
         </div>
 
         <div class="field-container">
@@ -81,18 +81,22 @@
       Account summary<span id="account-balance"></span>
       <ul></ul>
       Filter by account:
-      <select></select>
-      <table>
-        <tr>
-          <th>Id</th>
-          <th>Username</th>
-          <th>Transaction Type</th>
-          <th>Category</th>
-          <th>Description</th>
-          <th>Amount</th>
-          <th>From</th>
-          <th>To</th>
-        </tr>
+      <select id="account-filter"></select>
+      <table id="transactions-table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Transaction Type</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>From</th>
+            <th>To</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
       </table>
     </main>
     <script src="./js/helpers/Account.js"></script>

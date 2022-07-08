@@ -20,11 +20,11 @@ class Elements {
   }
 
   get transactionTypeRadioGroup() {
-    return $('input[name="transaction-type"]')
+    return $('input[name="type"]')
   }
 
   get selectedTransactionTypeRadio() {
-    return $('input[name="transaction-type"]:checked')
+    return $('input[name="type"]:checked')
   }
 
   get accountBalance() {
@@ -45,6 +45,14 @@ class Elements {
 
   get categoryInput() {
     return $('#category-name')
+  }
+
+  get transactionForm() {
+    return $('#transaction-form')
+  }
+
+  get transactionsTable() {
+    return $('#transactions-table')
   }
 }
 
