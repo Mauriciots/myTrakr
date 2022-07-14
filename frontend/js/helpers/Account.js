@@ -51,4 +51,8 @@ class Account {
         .fail((err) => reject(err))
     })
   }
+
+  static getAccountById(accounts, id) {
+    return accounts.find((a) => a.id === id)
+  }
 }

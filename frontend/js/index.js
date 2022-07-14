@@ -1,9 +1,3 @@
-const serverDataCache = {
-  categories: [],
-  accounts: [],
-  transactions: [],
-}
-
 function createSelect(value, label) {
   return $(`<option value="${value}">${label}</option>`)
 }
@@ -99,7 +93,7 @@ async function handleCategorySaveBtnClick() {
   pageEls.categoryInput.val('')
 }
 
-async function renderTransactions(transactions) {
+async function renderTransactions(transactions, accounts, categories) {
   const table = pageEls.transactionsTable
   const tableBody = table.find('tbody')
   tableBody.empty()
@@ -112,16 +106,20 @@ async function renderTransactions(transactions) {
         transfer: () =>
           new Transfer(t.amount, t.description, t.categoryId, t.accountId, t.accountIdFrom, t.accountIdTo),
       }[t.type]()
+      const account = Account.getAccountById(accounts, t.accountId)
+      const fromAcc = Account.getAccountById(accounts, tObj.accountIdFrom)
+      const toAcc = Account.getAccountById(accounts, tObj.accountIdTo)
+      const category = Category.getCategoryById(categories, t.categoryId)
       tableBody.append(`
         <tr>
           <td>${t.id}</td>
-          <td>${t.accountId}</td>
+          <td>${account.username}</td>
           <td>${tObj.type}</td>
-          <td>${tObj.categoryId}</td>
-          <td>${tObj.categoryId}</td>
+          <td>${category.name}</td>
+          <td>${tObj.description}</td>
           <td>${tObj.value}</td>
-          <td>${tObj.accountIdFrom || '--'}</td>
-          <td>${tObj.accountIdTo || '--'}</td>
+          <td>${fromAcc ? fromAcc.username : '--'}</td>
+          <td>${toAcc ? toAcc.username : '--'}</td>
         </tr>
       `)
     })
@@ -163,24 +161,24 @@ async function handleTransactionSubmit(event) {
   }
 
   await transaction.save()
-  renderTransactions(await Transaction.getTransactions())
+  renderTransactions(await Transaction.getTransactions(), await Account.getAccounts(), await Category.getCategories())
 }
 
 $(async () => {
-  serverDataCache.categories = await Category.getCategories()
-  serverDataCache.accounts = await Account.getAccounts()
-  serverDataCache.transactions = await Transaction.getTransactions()
+  const categories = await Category.getCategories()
+  const accounts = await Account.getAccounts()
+  const transactions = await Transaction.getTransactions()
 
   pageEls.accountForm.on('submit', handleAccountSubmit)
-  renderAccountDropdowns(serverDataCache.accounts)
+  renderAccountDropdowns(accounts)
 
   pageEls.transactionTypeRadioGroup.click(handleTransactionRadioClick)
   rearrangeForm()
 
   pageEls.categoryDropdown.change(handleCategoryDropdownChange)
   pageEls.categorySaveBtn.click(handleCategorySaveBtnClick)
-  renderCategories(serverDataCache.categories)
+  renderCategories(categories)
 
   pageEls.transactionForm.on('submit', handleTransactionSubmit)
-  renderTransactions(serverDataCache.transactions)
+  renderTransactions(transactions, accounts, categories)
 })

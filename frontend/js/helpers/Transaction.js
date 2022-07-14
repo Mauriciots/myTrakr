@@ -40,7 +40,7 @@ class Transaction {
           const normalized = data.reduce((acc, curr) => {
             curr.forEach((t) => acc.push(t))
             return acc
-          })
+          }, [])
           const filtered = normalized.filter((t) => !accountId || t.accountId === accountId)
           filtered.sort((a, b) => b.id - a.id)
           resolve(filtered)

@@ -25,4 +25,8 @@ class Category {
         .fail((err) => reject(err))
     })
   }
+
+  static getCategoryById(categories, id) {
+    return categories.find((c) => c.id === id)
+  }
 }
