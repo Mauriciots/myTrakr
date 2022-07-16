@@ -1,7 +1,7 @@
 class Account {
-  constructor(username) {
+  constructor(username, transactions) {
     this.username = username
-    this.transactions = []
+    this.transactions = transactions || []
   }
 
   validate(accounts) {
@@ -40,7 +40,8 @@ class Account {
 
   get balance() {
     return this.transactions.reduce((total, transaction) => {
-      return total + transaction
+      const transactionObj = Transaction.instantiate(transaction)
+      return total + transactionObj.value
     }, 0)
   }
 

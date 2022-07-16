@@ -129,7 +129,7 @@ async function renderTransactions(transactions, accounts, categories) {
 async function handleTransactionSubmit(event) {
   event.preventDefault()
   const formData = new FormData(event.target)
-  const values = {
+  const transaction = Transaction.instantiate({
     type: formData.get('type'),
     accountId: parseInt(formData.get('accountId')),
     accountFrom: parseInt(formData.get('accountFrom')),
@@ -137,32 +137,21 @@ async function handleTransactionSubmit(event) {
     categoryId: parseInt(formData.get('categoryId')),
     description: formData.get('description'),
     amount: parseFloat(formData.get('amount')),
-  }
+  })
+  const account = await Account.getAccountById(await Account.getAccounts(), transaction.accountId)
+  const accountObj = new Account(account.username, account.transactions)
+  const validationMsg = transaction.validate(accountObj)
 
-  let transaction = null
-
-  switch (values.type) {
-    case 'deposit':
-      transaction = new Deposit(values.amount, values.description, values.categoryId, values.accountId)
-      break
-    case 'withdraw':
-      transaction = new Withdrawal(values.amount, values.description, values.categoryId, values.accountId)
-      break
-    case 'transfer':
-    default:
-      transaction = new Transfer(
-        values.amount,
-        values.description,
-        values.categoryId,
-        values.accountFrom,
-        values.accountFrom,
-        values.accountTo
-      )
+  if (validationMsg) {
+    alert(validationMsg)
+    return
   }
 
   await transaction.save()
   renderTransactions(await Transaction.getTransactions(), await Account.getAccounts(), await Category.getCategories())
 }
+
+async function handleAccountDropdownChange(event) {}
 
 $(async () => {
   const categories = await Category.getCategories()

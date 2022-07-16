@@ -6,11 +6,15 @@ class Transaction {
     this.accountId = accountId
   }
 
-  // commit() {
-  //   if (this.value < 0 && this.amount > this.account.balance) return
-  //   this.account.transactions.push(this.value)
-  //   // this.account.balance += this.value;
-  // }
+  validate(account) {
+    let validationMsg = ''
+
+    if (this.type !== 'deposit' && account.balance < this.amount) {
+      validationMsg = 'Account does not have enough funds'
+    }
+
+    return validationMsg
+  }
 
   save() {
     const newTransaction = this.buildNewTransaction({
@@ -49,7 +53,29 @@ class Transaction {
     })
   }
 
-  static transformTransactions(transactions, categories, accounts) {}
+  static instantiate(transaction) {
+    switch (transaction.type) {
+      case 'deposit':
+        return new Deposit(transaction.amount, transaction.description, transaction.categoryId, transaction.accountId)
+      case 'withdraw':
+        return new Withdrawal(
+          transaction.amount,
+          transaction.description,
+          transaction.categoryId,
+          transaction.accountId
+        )
+      case 'transfer':
+      default:
+        return new Transfer(
+          transaction.amount,
+          transaction.description,
+          transaction.categoryId,
+          transaction.accountFrom,
+          transaction.accountFrom,
+          transaction.accountTo
+        )
+    }
+  }
 }
 
 class Withdrawal extends Transaction {
@@ -107,5 +133,15 @@ class Transfer extends Transaction {
       accountIdFrom: this.accountIdFrom,
       accountIdTo: this.accountIdTo,
     }
+  }
+
+  validate(account) {
+    let validationMsg = super.validate(account)
+
+    if (this.accountIdFrom === this.accountIdTo) {
+      validationMsg = 'Transfers can only be performed when both accounts are not the same'
+    }
+
+    return validationMsg
   }
 }
