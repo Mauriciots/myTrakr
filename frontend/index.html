@@ -19,7 +19,9 @@
     <link rel="stylesheet" href="./css/index.css" />
   </head>
   <body>
-    <h1>myTrakr</h1>
+    <header>
+      <h1>myTrakr</h1>
+    </header>
     <main>
       <form id="account-form">
         <h3>New account</h3>
@@ -64,13 +66,11 @@
         </div>
 
         <div class="field-container">
-          Description:
-          <input type="text" name="description" required />
+          <input type="text" name="description" placeholder="Description" required />
         </div>
 
         <div class="field-container">
-          Amount:
-          <input type="number" name="amount" required min="1"/>
+          <input type="number" name="amount" placeholder="Amount" required min="1"/>
         </div>
 
         <div class="field-container">
@@ -104,7 +104,7 @@
           <tr>
             <th>Id</th>
             <th>Username</th>
-            <th>Transaction Type</th>
+            <th>Type</th>
             <th>Category</th>
             <th>Description</th>
             <th>Amount</th>

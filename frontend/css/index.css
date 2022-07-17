@@ -1,20 +1,86 @@
-.field-container {
-  margin: 16px 0;
+:root {
+  --bg-color-main: #003049;
+  --bg-color-secondary: #edf9ff;
+  --font-color-title: #ff99c8;
+  --font-color-main: #003049;
+  --app-width: 1200px;
 }
 
-main {
-  max-width: 1200px;
-  margin: auto;
+body {
+  font-size: 16px;
+  font-family: sans-serif;
+  color: var(--font-color-main);
+}
+
+header {
+  background: var(--bg-color-main);
+  padding: 24px;
+}
+
+h1 {
+  max-width: var(--app-width);
+  margin: 0 auto;
+  color: var(--font-color-title);
+}
+
+h3 {
+  border-bottom: 1px solid var(--font-color-title);
+  font-size: 1.2rem;
+  margin: 32px 0 16px;
+  padding-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+button,
+input[type='submit'] {
+  background: var(--bg-color-main);
+  border: none;
+  padding: 0.5rem 1rem;
+  color: var(--font-color-title);
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+input,
+select {
+  padding: 0.5rem 1rem;
 }
 
 table {
-  border: 1px solid black;
-  margin: 8px 0;
+  margin: 1rem 0;
+  border: none;
 }
 
-table td,
 th {
-  border-top: 1px solid black;
-  border-right: 1px solid black;
-  padding: 4px;
+  color: var(--font-color-title);
+  background: var(--bg-color-main);
+  padding: 0.5rem;
+}
+
+td {
+  padding: 0.5rem;
+  background: var(--bg-color-secondary);
+}
+
+.field-container {
+  margin: 1rem 0;
+}
+
+.field-container select,
+.field-container input[type='text'],
+.field-container input[type='number'] {
+  width: 300px;
+}
+
+main {
+  max-width: var(--app-width);
+  margin: 0 auto 64px;
+}
+
+hr {
+  border-color: var(--font-color-title);
+}
+
+p {
+  margin: 48px 0;
 }
