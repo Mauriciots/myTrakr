@@ -57,7 +57,7 @@ class Transaction {
     switch (transaction.type) {
       case 'deposit':
         return new Deposit(transaction.amount, transaction.description, transaction.categoryId, transaction.accountId)
-      case 'withdraw':
+      case 'withdrawal':
         return new Withdrawal(
           transaction.amount,
           transaction.description,

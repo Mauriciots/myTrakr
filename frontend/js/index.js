@@ -109,7 +109,7 @@ async function renderTransactions(transactions, accounts, categories) {
     transactions.forEach((t) => {
       const tObj = {
         deposit: () => new Deposit(t.amount, t.description, t.categoryId, t.accountId),
-        withdrawl: () => new Withdrawal(t.amount, t.description, t.categoryId, t.accountId),
+        withdrawal: () => new Withdrawal(t.amount, t.description, t.categoryId, t.accountId),
         transfer: () =>
           new Transfer(t.amount, t.description, t.categoryId, t.accountId, t.accountIdFrom, t.accountIdTo),
       }[t.type]()
