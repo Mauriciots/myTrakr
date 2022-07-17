@@ -9,6 +9,7 @@ main {
 
 table {
   border: 1px solid black;
+  margin: 8px 0;
 }
 
 table td,

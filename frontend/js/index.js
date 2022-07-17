@@ -6,15 +6,18 @@ function renderAccountDropdowns(accounts) {
   pageEls.accountDropdown.empty()
   pageEls.fromDropdown.empty()
   pageEls.toDropdown.empty()
+  pageEls.accountFilter.empty()
 
   pageEls.accountDropdown.append(createSelect('', 'Select account'))
   pageEls.fromDropdown.append(createSelect('', 'Select sender account'))
   pageEls.toDropdown.append(createSelect('', 'Select destination account'))
+  pageEls.accountFilter.append(createSelect('', 'Select account'))
 
   accounts.forEach((a) => {
     pageEls.accountDropdown.append(createSelect(a.id, a.username))
     pageEls.fromDropdown.append(createSelect(a.id, a.username))
     pageEls.toDropdown.append(createSelect(a.id, a.username))
+    pageEls.accountFilter.append(createSelect(a.id, a.username))
   })
 }
 
@@ -97,8 +100,12 @@ async function renderTransactions(transactions, accounts, categories) {
   const table = pageEls.transactionsTable
   const tableBody = table.find('tbody')
   tableBody.empty()
+  pageEls.emptyTable.show()
+  table.hide()
 
   if (transactions && transactions.length) {
+    table.show()
+    pageEls.emptyTable.hide()
     transactions.forEach((t) => {
       const tObj = {
         deposit: () => new Deposit(t.amount, t.description, t.categoryId, t.accountId),
@@ -148,8 +155,9 @@ async function handleTransactionSubmit(event) {
   }
 
   await transaction.save()
+  const accountId = parseInt(pageEls.accountFilter.val()) || null
   const accounts = await Account.getAccounts()
-  renderTransactions(await Transaction.getTransactions(), accounts, await Category.getCategories())
+  renderTransactions(await Transaction.getTransactions(accountId), accounts, await Category.getCategories())
   renderSummary(Account.getAccountById(accounts, transaction.accountId))
 }
 
@@ -168,6 +176,14 @@ async function handleAccountDropdownChange(event) {
   const accountId = $(this).val()
   const account = await Account.getAccountById(await Account.getAccounts(), parseInt(accountId))
   renderSummary(account)
+}
+
+async function handleAccountFilterChange(event) {
+  const accountId = parseInt($(this).val()) || null
+  const accounts = await Account.getAccounts()
+  const categories = await Category.getCategories()
+  const transactions = await Transaction.getTransactions(accountId)
+  renderTransactions(transactions, accounts, categories)
 }
 
 $(async () => {
@@ -190,4 +206,5 @@ $(async () => {
 
   pageEls.accountDropdown.change(handleAccountDropdownChange)
   pageEls.fromDropdown.change(handleAccountDropdownChange)
+  pageEls.accountFilter.change(handleAccountFilterChange)
 })

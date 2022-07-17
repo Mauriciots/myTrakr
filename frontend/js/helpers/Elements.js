@@ -66,6 +66,14 @@ class Elements {
   get summaryContainer() {
     return $('#summary-container')
   }
+
+  get accountFilter() {
+    return $('#account-filter')
+  }
+
+  get emptyTable() {
+    return $('#empty-table')
+  }
 }
 
 const pageEls = new Elements()
