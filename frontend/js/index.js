@@ -148,10 +148,27 @@ async function handleTransactionSubmit(event) {
   }
 
   await transaction.save()
-  renderTransactions(await Transaction.getTransactions(), await Account.getAccounts(), await Category.getCategories())
+  const accounts = await Account.getAccounts()
+  renderTransactions(await Transaction.getTransactions(), accounts, await Category.getCategories())
+  renderSummary(Account.getAccountById(accounts, transaction.accountId))
 }
 
-async function handleAccountDropdownChange(event) {}
+async function renderSummary(account) {
+  if (account) {
+    const accountObj = new Account(account.username, account.transactions)
+    pageEls.summaryContainer.show()
+    pageEls.summaryAccName.text(accountObj.username)
+    pageEls.summaryAccBalance.text(accountObj.balance)
+  } else {
+    pageEls.summaryContainer.hide()
+  }
+}
+
+async function handleAccountDropdownChange(event) {
+  const accountId = $(this).val()
+  const account = await Account.getAccountById(await Account.getAccounts(), parseInt(accountId))
+  renderSummary(account)
+}
 
 $(async () => {
   const categories = await Category.getCategories()
@@ -170,4 +187,7 @@ $(async () => {
 
   pageEls.transactionForm.on('submit', handleTransactionSubmit)
   renderTransactions(transactions, accounts, categories)
+
+  pageEls.accountDropdown.change(handleAccountDropdownChange)
+  pageEls.fromDropdown.change(handleAccountDropdownChange)
 })

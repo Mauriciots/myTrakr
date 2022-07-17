@@ -54,6 +54,18 @@ class Elements {
   get transactionsTable() {
     return $('#transactions-table')
   }
+
+  get summaryAccName() {
+    return $('#summary-acc-name')
+  }
+
+  get summaryAccBalance() {
+    return $('#summary-acc-balance')
+  }
+
+  get summaryContainer() {
+    return $('#summary-container')
+  }
 }
 
 const pageEls = new Elements()

@@ -78,7 +78,21 @@
           <input type="submit" value="Add transaction" />
         </div>
 
-      Account summary<span id="account-balance"></span>
+      <div id="summary-container" style="display: none;">
+        <h3>Account summary</h3>
+        <ul>
+          <li>
+            <strong>Account: </strong>
+            <span id="summary-acc-name"></span>
+          </li>
+          <li>
+            <strong>Balance: </strong>
+            <span id="summary-acc-balance"></span>
+          </li>
+        </ul>
+      </div>
+      
+      <span id="account-balance"></span>
       <ul></ul>
       Filter by account:
       <select id="account-filter"></select>
