@@ -81,7 +81,7 @@ class Transaction {
 class Withdrawal extends Transaction {
   constructor(amount, description, categoryId, accountId) {
     super(amount, description, categoryId, accountId)
-    this.type = 'withdrawl'
+    this.type = 'withdrawal'
   }
 
   get value() {
