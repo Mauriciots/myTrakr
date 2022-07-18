@@ -49,6 +49,7 @@ select {
 table {
   margin: 1rem 0;
   border: none;
+  width: 100%;
 }
 
 th {
